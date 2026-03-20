@@ -22,6 +22,9 @@ public:
     void imprimir();
 
     int getValor(int i, int j);
+
+    void rotar();
+    void crearAleatorio();
 };
 
 #endif // FIGURAS_H

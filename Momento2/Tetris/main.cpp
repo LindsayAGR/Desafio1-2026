@@ -1,56 +1,113 @@
 #include <iostream>
-#include "figuras.h"
+#include "Figuras.h"
 #include "Tablero.h"
+#include "Movimiento.h"
+
+#include<cstdlib>
+#include <ctime>
 
 using namespace std;
 
 int main()
 {
-    int ancho = 8;
-    int alto = 10;
+    int ancho, alto;
+
+    cout << "Ingrese el ANCHO (multiplo de 8): ";
+    cin >> ancho;
+
+    while(ancho % 8 != 0)
+    {
+        cout << "Debe ser multiplo de 8: ";
+        cin >> ancho;
+    }
+
+    cout << "Ingrese el ALTO: ";
+    cin >> alto;
 
     Tablero t(ancho, alto);
     Figuras f;
+    Movimiento m;
 
-    f.crearT(); // prueba con cualquier figura
+    f.crearAleatorio();
 
-    int posX = 2; // posición fija
-    int posY = 1;
+    char tecla;
 
-    cout << "TABLERO CON FIGURA:\n" << endl;
-
-    for(int i=0;i<alto;i++)
+    while(true)
     {
-        cout<<"| ";
+        cout << "\n\n";
 
-        for(int j=0;j<ancho;j++)
+        // DIBUJAR TABLERO + FIGURA
+        for(int i=0;i<alto;i++)
         {
-            bool hayFigura = false;
+            cout<<"| ";
 
-            // recorrer la figura (4x4)
-            for(int fi=0;fi<4;fi++)
+            for(int j=0;j<ancho;j++)
             {
-                for(int fj=0;fj<4;fj++)
+                bool hayFigura = false;
+
+                for(int fi=0;fi<4;fi++)
                 {
-                    if(f.getValor(fi,fj) == 1)
+                    for(int fj=0;fj<4;fj++)
                     {
-                        if(i == posY + fi && j == posX + fj)
+                        if(f.getValor(fi,fj) == 1)
                         {
-                            hayFigura = true;
+                            if(i == m.getY() + fi && j == m.getX() + fj)
+                                hayFigura = true;
                         }
                     }
                 }
+
+                if(hayFigura)
+                    cout<<"[]";
+                else
+                {
+                    if(t.getValor(i,j)== 1)
+                        cout<<"[]";
+                    else
+                        cout<<".";
+
+                }
             }
 
-            if(hayFigura)
-                cout<<"[]";
-            else
-                cout<<". ";
+            cout<<"|"<<endl;
         }
 
-        cout<<"|"<<endl;
+        cout << "\nX: " << m.getX() << " Y: " << m.getY() << endl;
+
+        cout << "\nA: Izq | D: Der | S: Abajo | W: Rotar | Q: Salir\n";
+        cin >> tecla;
+
+        // MOVIMIENTO
+        if(tecla == 'a' || tecla == 'A')
+            m.izquierda();
+
+        if(tecla == 'd' || tecla == 'D')
+            m.derecha();
+
+        if(tecla == 's' || tecla == 'S')
+        {
+            //  LÍMITE INFERIOR
+            if(m.getY() < alto - 4)
+            {
+                m.abajo();
+            }
+            else
+            {
+                // TOCÓ FONDO  nueva figura
+
+                t.guardarFigura(f, m.getX(), m.getY());
+                m = Movimiento(); //nueva pos
+                f.crearT(); // nueva fig
+            }
+        }
+
+        // ROTACIÓN
+        if(tecla == 'w' || tecla == 'W')
+            f.rotar();
+
+        if(tecla == 'q' || tecla == 'Q')
+            break;
     }
 
-    cin.get();
     return 0;
 }

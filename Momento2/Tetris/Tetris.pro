@@ -6,8 +6,10 @@ CONFIG -= qt
 SOURCES += \
         figuras.cpp \
         main.cpp \
-        Tablero.cpp
+        Tablero.cpp \
+        movimiento.cpp
 
 HEADERS += \
     Tablero.h \
-    figuras.h
+    figuras.h \
+    movimiento.h
