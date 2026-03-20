@@ -27,8 +27,15 @@ int main()
             cin >> ancho;
         }
 
-        cout << "Ingrese el ALTO: ";
+        cout << "Ingrese el ALTO (mayor o igual a 8)\nPara una buena experiencia: ";
         cin >> alto;
+
+
+        while(alto < 8)
+        {
+            cout << "Debe mayor o igual 8: ";
+            cin >> alto;
+        }
 
         Tablero t(ancho, alto);
         Figuras f;
@@ -125,7 +132,7 @@ int main()
                 break;
         }
 
-        cout << "\n¿Quieres jugar otra vez? (s/n): ";h
+        cout << "\n¿Quieres jugar otra vez? (s/n): ";
         cin >> jugar;
     }
 
