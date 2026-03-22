@@ -132,7 +132,7 @@ int main()
                 break;
         }
 
-        cout << "\n¿Quieres jugar otra vez? (s/n): ";
+        cout << "\nQuieres jugar otra vez? (s/n): ";
         cin >> jugar;
     }
 
